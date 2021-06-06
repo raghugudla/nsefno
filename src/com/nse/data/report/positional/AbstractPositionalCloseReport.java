@@ -1,6 +1,7 @@
-package com.nse.data.crunch.positional;
+package com.nse.data.report.positional;
 
-import com.nse.data.crunch.util.CSVUtil;
+import com.nse.data.report.AbstractReport;
+import com.nse.data.report.util.CSVUtil;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,17 +9,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.SortedMap;
 
-public abstract class AbstractOverNightDataReport implements OverNightDataReport {
-
-    protected String dir = null;
-    protected List<List<String>> records = null;
+public abstract class AbstractPositionalCloseReport extends AbstractReport implements PositionalCloseReport {
 
     @Override
-    public void crunch(String dir, Integer dateIndex, Integer valueIndex) throws Exception {
+    public void crunch(String dir, int dateIndex, int valueIndex) throws Exception {
         this.dir = dir;
         //csv files directory name
         //close price index in the csv file
-        if(dir == null || dateIndex == null || valueIndex == null)
+        if(dir == null)
             throw new IllegalArgumentException("Params missing");
 
         // Get the map,trading date and it's closing price in descending order

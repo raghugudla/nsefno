@@ -1,12 +1,14 @@
-package com.nse.data.crunch.positional.impl;
+package com.nse.data.report.overnight.impl;
 
-import com.nse.data.crunch.positional.AbstractOverNightExpiryDayReport;
+import com.nse.data.report.overnight.AbstractOverNightDataReport;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class OverNightMonthlyExpiryDayReport extends AbstractOverNightExpiryDayReport {
+public class MonthlyExpiryOverNightOpenReport extends AbstractOverNightDataReport {
 
     @Override
     public SortedMap<LocalDate, Float[]> filter(final SortedMap<LocalDate, Float[]>  data) {
@@ -19,7 +21,7 @@ public class OverNightMonthlyExpiryDayReport extends AbstractOverNightExpiryDayR
                 expDay = date;
             }
             else if(expDay != null) {
-                filteredData.put(expDay, new Float[] {data.get(expDay)[0], data.get(date)[0]});
+                filteredData.put(expDay, new Float[] {data.get(expDay)[0], data.get(date)[1]});
                 expDay = null;
             }
         }
@@ -28,8 +30,7 @@ public class OverNightMonthlyExpiryDayReport extends AbstractOverNightExpiryDayR
     }
 
     @Override
-    public String toString(){
-        return "OverNightMonthlyExpiryDayReport=[" + dir + "]";
+    public List<String> getRowHeader() {
+        return Arrays.asList("Date", "Open", "Prev_Close", "Chg %");
     }
-
 }

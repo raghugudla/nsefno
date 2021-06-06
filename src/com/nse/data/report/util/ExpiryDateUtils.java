@@ -1,4 +1,4 @@
-package com.nse.data.crunch.util;
+package com.nse.data.report.util;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -14,6 +14,8 @@ public class ExpiryDateUtils {
     private static ExpiryDateUtils EXPIRY_DATE_UTILS = null;
 
     private ExpiryDateUtils() {
+        weeklyExpiries = new ArrayList<>();
+        monthlyExpiries = new ArrayList<>();
         try {
             SortedSet<LocalDate> tradingDays = CSVUtil.readFrom("nifty", 0);
             setExpiries(tradingDays);
@@ -24,8 +26,6 @@ public class ExpiryDateUtils {
     }
 
     private void setExpiries(final SortedSet<LocalDate> tradingDays) {
-        weeklyExpiries = new ArrayList<>();
-        monthlyExpiries = new ArrayList<>();
         boolean isMonthlyExpCaptured = false;
         boolean isWeeklyExpCaptured = false;
 
@@ -54,8 +54,6 @@ public class ExpiryDateUtils {
     }
 
     private void setExpiries() {
-        weeklyExpiries = new ArrayList<>();
-        monthlyExpiries = new ArrayList<>();
         boolean isMonthlyExpCaptured = false;
         boolean isWeeklyExpCaptured = false;
         LocalDate cutoffDate = LocalDate.of(2000,1,1);

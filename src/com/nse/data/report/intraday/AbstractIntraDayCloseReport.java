@@ -1,6 +1,7 @@
-package com.nse.data.crunch.intraday;
+package com.nse.data.report.intraday;
 
-import com.nse.data.crunch.util.CSVUtil;
+import com.nse.data.report.AbstractReport;
+import com.nse.data.report.util.CSVUtil;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,17 +9,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.SortedMap;
 
-public abstract class AbstractIntraDayDataReport implements IntraDayDataReport {
-
-    protected String dir = null;
-    protected List<List<String>> records = null;
+public abstract class AbstractIntraDayCloseReport extends AbstractReport implements IntraDayCloseReport {
 
     @Override
-    public void crunch(String dir, Integer dateIndex, Integer openIndex, Integer closeIndex) throws Exception {
+    public void crunch(String dir, int dateIndex, int openIndex, int closeIndex) throws Exception {
         this.dir = dir;
         //csv files directory name
         //close price index in the csv file
-        if(dir == null || dateIndex == null || openIndex == null || closeIndex == null)
+        if(dir == null)
             throw new IllegalArgumentException("Params missing");
 
         // Get the map,trading date and it's closing price in descending order
