@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class NonExpiryOverNightOpenReport extends AbstractOverNightDataReport {
+import static java.time.temporal.ChronoUnit.DAYS;
+
+public class HolidayOverNightCloseReport extends AbstractOverNightDataReport {
 
     @Override
     public SortedMap<LocalDate, Float[]> filter(final SortedMap<LocalDate, Float[]>  data) {
@@ -17,8 +19,8 @@ public class NonExpiryOverNightOpenReport extends AbstractOverNightDataReport {
         LocalDate prevDay = null;
 
         for(LocalDate date: data.keySet()) {
-            if(EXPIRY_DATE_UTILS.isNonExpiry(date) && prevDay != null) {
-                filteredData.put(date, new Float[] {data.get(date)[0], data.get(prevDay)[1]});
+            if(prevDay != null && DAYS.between(date, prevDay) >1 && EXPIRY_DATE_UTILS.isNonExpiry(prevDay)) {
+                filteredData.put(prevDay, new Float[] {data.get(prevDay)[1], data.get(date)[1]});
             }
             prevDay = date;
         }
@@ -28,6 +30,6 @@ public class NonExpiryOverNightOpenReport extends AbstractOverNightDataReport {
 
     @Override
     public List<String> getRowHeader() {
-        return Arrays.asList("Date", "Open", "Prev_Close", "Chg %");
+        return Arrays.asList("Date", "Close", "Prev_Close", "Chg %");
     }
 }

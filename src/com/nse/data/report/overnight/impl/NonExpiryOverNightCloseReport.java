@@ -1,6 +1,5 @@
 package com.nse.data.report.overnight.impl;
 
-import com.nse.data.report.intraday.AbstractIntraDayCloseReport;
 import com.nse.data.report.overnight.AbstractOverNightDataReport;
 
 import java.time.LocalDate;

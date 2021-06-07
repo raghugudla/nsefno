@@ -95,9 +95,9 @@ public class CSVUtil {
 
     public static boolean writeTo(final String fileName, final List<List<String>> records) throws Exception {
 
-        File crunchedDataFile = new File("resources/" + fileName + "-data.csv");
-        boolean flag = crunchedDataFile.createNewFile();
-        BufferedWriter writer = new BufferedWriter(new FileWriter(crunchedDataFile));
+        File output = new File("resources/" + fileName + "-data.csv");
+        boolean flag = output.createNewFile();
+        BufferedWriter writer = new BufferedWriter(new FileWriter(output));
 
         for(List<String> row: records) {
             for(String cell: row){
@@ -107,7 +107,7 @@ public class CSVUtil {
         }
         writer.close();
 
-        return crunchedDataFile.length() > 0;
+        return output.length() > 0;
     }
 
     private static List<File> readFilesFrom(final String dir) throws IOException {
@@ -115,7 +115,6 @@ public class CSVUtil {
                 .filter(Files::isRegularFile)
                 .map(Path::toFile)
                 .collect(Collectors.toList());
-
     }
 
     private static String parse(final String cell) {
