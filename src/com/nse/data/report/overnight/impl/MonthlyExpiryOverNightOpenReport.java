@@ -1,6 +1,6 @@
 package com.nse.data.report.overnight.impl;
 
-import com.nse.data.report.overnight.AbstractOverNightDataReport;
+import com.nse.data.report.AbstractReport;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class MonthlyExpiryOverNightOpenReport extends AbstractOverNightDataReport {
+public class MonthlyExpiryOverNightOpenReport extends AbstractReport {
 
     @Override
     public SortedMap<LocalDate, Float[]> filter(final SortedMap<LocalDate, Float[]>  data) {
@@ -21,7 +21,12 @@ public class MonthlyExpiryOverNightOpenReport extends AbstractOverNightDataRepor
                 expDay = date;
             }
             else if(expDay != null) {
-                filteredData.put(expDay, new Float[] {data.get(expDay)[0], data.get(date)[1]});
+                filteredData.put(expDay,
+                        new Float[] {
+                                data.get(expDay)[0],
+                                data.get(date)[1],
+                                percent(data.get(expDay)[0], data.get(date)[1])
+                        });
                 expDay = null;
             }
         }

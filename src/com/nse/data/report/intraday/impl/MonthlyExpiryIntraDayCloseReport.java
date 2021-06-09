@@ -1,12 +1,14 @@
 package com.nse.data.report.intraday.impl;
 
-import com.nse.data.report.intraday.AbstractIntraDayCloseReport;
+import com.nse.data.report.AbstractReport;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class MonthlyExpiryIntraDayCloseReport extends AbstractIntraDayCloseReport {
+public class MonthlyExpiryIntraDayCloseReport extends AbstractReport {
 
     @Override
     public SortedMap<LocalDate, Float[]> filter(final SortedMap<LocalDate, Float[]>  data) {
@@ -15,10 +17,20 @@ public class MonthlyExpiryIntraDayCloseReport extends AbstractIntraDayCloseRepor
 
         for(LocalDate date: data.keySet()) {
             if(EXPIRY_DATE_UTILS.isMonthlyExpiry(date)){
-                filteredData.put(date, data.get(date));
+                Float[] prices = data.get(date);
+                filteredData.put(date, new Float[] {
+                        prices[0],
+                        prices[1],
+                        percent(prices[0], prices[1])
+                });
             }
         }
 
         return filteredData;
+    }
+
+    @Override
+    public List<String> getRowHeader() {
+        return Arrays.asList("Date", "Open", "Close", "Chg %");
     }
 }
