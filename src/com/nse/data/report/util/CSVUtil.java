@@ -24,7 +24,7 @@ public class CSVUtil {
         SortedSet<LocalDate> dates = new TreeSet<>(Comparator.reverseOrder());
 
         for(File file: files) {
-            String line = "";
+            String line;
             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
                 br.readLine();
 
@@ -47,7 +47,7 @@ public class CSVUtil {
         SortedMap<LocalDate, Float[]> data = new TreeMap<>(Comparator.reverseOrder());
 
         for(File file: files) {
-            String line = "";
+            String line;
             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
                 br.readLine();
 
@@ -72,7 +72,7 @@ public class CSVUtil {
         SortedMap<LocalDate, Float[]> data = new TreeMap<>(Comparator.reverseOrder());
 
         for(File file: files) {
-            String line = "";
+            String line;
             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
                 br.readLine();
 
@@ -93,21 +93,16 @@ public class CSVUtil {
         return data;
     }
 
-    public static boolean writeTo(final String fileName, final List<List<String>> records) throws Exception {
+    public static void writeTo(final String fileName, final List<List<String>> records) throws Exception {
 
-        File output = new File("resources/" + fileName + "-data.csv");
-        boolean flag = output.createNewFile();
-        BufferedWriter writer = new BufferedWriter(new FileWriter(output));
-
-        for(List<String> row: records) {
-            for(String cell: row){
-                writer.append(cell).append(";");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("resources/" + fileName + "-data.csv"))) {
+            for(List<String> row: records) {
+                for(String cell: row){
+                    writer.append(cell).append(";");
+                }
+                writer.append("\n");
             }
-            writer.append("\n");
         }
-        writer.close();
-
-        return output.length() > 0;
     }
 
     private static List<File> readFilesFrom(final String dir) throws IOException {
